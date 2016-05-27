@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "eslint": "^2.10.2",
     "gcloud": "^0.34.0",
     "request": "^2.72.0"
   }
