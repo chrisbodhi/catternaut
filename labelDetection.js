@@ -18,9 +18,9 @@ var vision = gcloud.vision();
  * Uses the Vision API to detect labels in the given file.
  */
 
-module.exports.detectLabels = function(inputFile, callback) {
+module.exports.detectLabels = function(inputFile, maxResults, callback) {
   // Make a call to the Vision API to detect the labels
-  vision.detectLabels(inputFile, { verbose: true, maxResults: 8 }, function (err, labels) {
+  vision.detectLabels(inputFile, { verbose: true, maxResults }, function (err, labels) {
     if (err) {
       return callback(err);
     }
