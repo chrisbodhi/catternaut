@@ -18,7 +18,18 @@ function checkLabelsForCat(labels) {
   return !!catLabel;
 }
 
-// getImageLabels('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ4wdmW2mGrTj4In2et-g780oVp50gDVzObkaSSGZP94PHlFLN', 8, checkLabelsForCat)
+function checkIfCatImage(imageURL, maxResults, callback) {
+  getImageLabels(imageURL, 10, function(labels) {
+    const isCatImage = checkLabelsForCat(labels);
+    if (isCatImage) {
+      callback(true);
+    } else {
+      callback(false);
+    }
+  });
+}
+
+module.exports = checkIfCatImage;
 
 if (module === require.main) {
   if (process.argv.length !== 3) {

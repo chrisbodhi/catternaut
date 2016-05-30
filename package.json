@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "eslint": "^2.10.2",
+    "express": "^4.13.4",
     "gcloud": "^0.34.0",
     "lodash": "^4.13.1",
     "request": "^2.72.0"
