@@ -1,7 +1,7 @@
 {
   "name": "catternaut",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.0.1",
+  "description": "Leverage the full power of Google's Cloud Vision resources to answer the age-old question: Is this a cat, or not?",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,11 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.15.1",
-    "eslint": "^2.10.2",
-    "express": "^4.13.4",
     "gcloud": "^0.34.0",
     "lodash": "^4.13.1",
     "request": "^2.72.0"
+  },
+  "devDependencies": {
+    "eslint": "^2.10.2"
   }
 }
