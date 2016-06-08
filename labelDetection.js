@@ -2,8 +2,16 @@ let gcloud = require('gcloud');
 process.env.GOOGLE_APPLICATION_CREDENTIALS = process.env.GOOGLE_APPLICATION_CREDENTIALS || 'keys.json';
 
 gcloud = gcloud({
-  projectId: process.env.GCLOUD_PROJECT || 'mewment-proto'
+  projectId: process.env.GCLOUD_PROJECT
 });
+
+if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+  throw new Error('Missing credentials from Google.');
+}
+
+if (!process.env.GCLOUD_PROJECT) {
+  throw new Error('Missing project name.');
+}
 
 // Get a reference to the vision component
 const vision = gcloud.vision();
