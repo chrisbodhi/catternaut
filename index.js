@@ -5,7 +5,6 @@ const detectLabels = require('./labelDetection');
 exports.catternaut = function(imageURL) {
   return checkIfCatImage(imageURL, 10)
     .then(function(isCatImage) {
-      console.log('isCatImage in catternaut', isCatImage);
       return isCatImage;
     })
     .catch(function(err) {
