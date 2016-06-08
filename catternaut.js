@@ -1,16 +1,16 @@
-const fetchAndSaveImage = require('./imageFetch');
-const {detectLabels} = require('./labelDetection');
 const _ = require('lodash');
+const detectLabels = require('./labelDetection');
 
-function getImageLabels(imageURL, maxResults, callback) {
-  detectLabels(imageURL, maxResults, function(err, labels) {
-    if (err) {
-      console.log(`No labels returned\n${err}`);
-      return
-    }
-
-    callback(labels)
-  })
+function getImageLabels(imageURL, maxResults) {
+  return new Promise(function(resolve, reject) {
+    detectLabels(imageURL, maxResults)
+      .then(function(labels) {
+        resolve(labels);
+      })
+      .catch(function(err) {
+        reject(err);
+      });
+  });
 }
 
 function checkLabelsForCat(labels) {
@@ -18,32 +18,15 @@ function checkLabelsForCat(labels) {
   return !!catLabel;
 }
 
-function checkIfCatImage(imageURL, maxResults, callback) {
-  getImageLabels(imageURL, 10, function(labels) {
-    const isCatImage = checkLabelsForCat(labels);
-    if (isCatImage) {
-      callback(true);
-    } else {
-      callback(false);
-    }
-  });
+function checkIfCatImage(imageURL, maxResults) {
+  return getImageLabels(imageURL, maxResults)
+    .then(function(labels) {
+      const isCatImage = checkLabelsForCat(labels);
+      return isCatImage;
+    })
+    .catch(function(err) {
+      throw new Error('checkIfCatImage catch:', err);
+    })
 }
 
 module.exports = checkIfCatImage;
-
-if (module === require.main) {
-  if (process.argv.length !== 3) {
-    console.log('Usage: node catternaut <imageURL>');
-    process.exit(1);
-  }
-  const imageURL = process.argv[2];
-
-  getImageLabels(imageURL, 10, function(labels) {
-    const isCatImage = checkLabelsForCat(labels);
-    if (isCatImage) {
-      console.log('CAT');
-    } else {
-      console.log('NOT A CAT');
-    }
-  });
-}
