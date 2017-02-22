@@ -1,26 +1,38 @@
-let gcloud = require('gcloud');
-process.env.GOOGLE_APPLICATION_CREDENTIALS = process.env.GOOGLE_APPLICATION_CREDENTIALS || 'keys.json';
+const vision = require('@google-cloud/vision');
 
-gcloud = gcloud({
-  projectId: process.env.GCLOUD_PROJECT
+const projectId = process.env.GCLOUD_PROJECT; // E.g. 'grape-spaceship-123'
+
+if (!projectId) throw new Error('Missing project name.');
+
+const visionClient = vision({
+  projectId: projectId,
+  keyFilename: './config/keys.json'
 });
 
-if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
-  throw new Error('Missing credentials from Google.');
+/**
+ * Promise resolves with a Safe Search object:
+ * safeSearch = {
+     adult: false,
+     medical: false,
+     spoof: false,
+     violence: true
+   }
+ */
+function safeSearch(inputFile) {
+  return new Promise((resolve, reject) => {
+    visionClient.detectSafeSearch(inputFile)
+      .then(res => resolve(res[0]))
+      .catch(err => reject(err));
+  });
 }
 
-if (!process.env.GCLOUD_PROJECT) {
-  throw new Error('Missing project name.');
-}
-
-// Get a reference to the vision component
-const vision = gcloud.vision();
-
-// Uses the Vision API to detect labels in the given file.
+/**
+ * Uses the Vision API to detect labels in the given file.
+ */
 function detectLabels(inputFile, maxResults) {
   // Make a call to the Vision API to detect the labels
   return new Promise(function(resolve, reject) {
-    vision.detectLabels(inputFile, { verbose: true, maxResults }, function(err, labels) {
+    visionClient.detectLabels(inputFile, { verbose: true, maxResults }, function(err, labels) {
       if (!err) {
         resolve(labels);
       } else {
@@ -30,4 +42,7 @@ function detectLabels(inputFile, maxResults) {
   });
 }
 
-module.exports = detectLabels;
+module.exports = {
+  detectLabels: detectLabels,
+  safeSearch: safeSearch
+};
