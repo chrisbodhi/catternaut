@@ -1,15 +1,9 @@
 const checkIfCatImage = require('./catternaut');
 const detectLabels = require('./labelDetection');
 
-// Returns a boolean value for whether or not a cat is in the image
+// Returns a promise for a boolean value for whether or not a cat is in the image
 exports.catternaut = function(imageURL) {
-  return checkIfCatImage(imageURL, 10)
-    .then(function(isCatImage) {
-      return isCatImage;
-    })
-    .catch(function(err) {
-      throw new Error(err);
-    });
+  return checkIfCatImage(imageURL, 10);
 }
 
 // Returns a JSON object of the labels and their confidences
