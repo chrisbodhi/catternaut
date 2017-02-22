@@ -1,4 +1,4 @@
-keys.json
+config/keys.json
 node_modules/
 *.jpeg
 *.png
