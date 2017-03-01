@@ -53,5 +53,6 @@ function catternaut(imageURL) {
 }
 
 module.exports = {
-  catternaut: catternaut
+  catternaut: catternaut,
+  detectLabels: detectLabels
 };
